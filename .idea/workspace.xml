@@ -2,23 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="197605d4-10eb-42f4-8637-9af98743c409" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AlgorytmyDysku.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Comparators/SortByMomentOfNotification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataExchange/CollectData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataExchange/PresentResults.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MyObjects/Disc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MyObjects/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Useful/TableManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Comparators/SortByDeadline.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/C_SCAN.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Useful/DistanceCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Comparators/SortByMomentOfNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Comparators/SortByMomentOfNotification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyObjects/Disc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyObjects/Disc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyObjects/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyObjects/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Useful/TableManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Useful/TableManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,15 +41,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main.Main" />
@@ -99,21 +94,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

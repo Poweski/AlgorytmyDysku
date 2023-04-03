@@ -1,46 +1,42 @@
 package MyObjects;
 
-import java.util.Objects;
-import java.util.Random;
-
 public class Request { //implements Comparable<Request> {
 
-    private final int platterID;
     private final int cylinderID;
-    private final int segmentID;
+    private final int blockID;
+    private final int platterID;
     private final int momentOfNotification;
     private final int deadline;
     private int waitingTime;
-
-    public Request(int platterID, int cylinderID, int segmentID, int momentOfNotification, int deadline) {
-        this.platterID = platterID;
+    public Request(int cylinderID, int blockID, int platterID, int momentOfNotification, int deadline) {
         this.cylinderID = cylinderID;
-        this.segmentID = segmentID;
+        this.blockID = blockID;
+        this.platterID = platterID;
         this.momentOfNotification = momentOfNotification;
         this.deadline = deadline;
         this.waitingTime = 0;
     }
 
     public Request(Request request) {
-        this.platterID = request.getPlatterID();
         this.cylinderID = request.getCylinderID();
-        this.segmentID = request.getSegmentID();
+        this.blockID = request.getBlockID();
+        this.platterID = request.getPlatterID();
         this.momentOfNotification = request.getMomentOfNotification();
         this.deadline = request.getDeadline();
         this.waitingTime = request.getWaitingTime();
     }
 
 
-    public int getPlatterID() {
-        return platterID;
-    }
-
     public int getCylinderID() {
         return cylinderID;
     }
 
-    public int getSegmentID() {
-        return segmentID;
+    public int getBlockID() {
+        return blockID;
+    }
+
+    public int getPlatterID() {
+        return platterID;
     }
 
     public int getMomentOfNotification() {
@@ -58,35 +54,6 @@ public class Request { //implements Comparable<Request> {
     public void setWaitingTime(int value) {
         this.waitingTime = value;
     }
-
-//    public static MyProcess generateProcess(int processNumber, int stringNumber, int range,
-//                                            int threshold, int numberOfProcesses) {
-//        Random generator = new Random();
-//        int length = generatePhaseLength(range,threshold);
-//        int moment = generator.nextInt(numberOfProcesses*(range+threshold)/4);
-//        return new MyProcess(processNumber,stringNumber,length,moment);
-//    }
-//    public static int generatePhaseLength(int range, int threshold) {
-//        Random generator = new Random();
-//        int ratio = generator.nextInt(4);
-//        int limit = threshold + Math.abs(range-threshold)/5;
-//
-//        if (ratio == 0)
-//            return generator.nextInt(limit, range);
-//        else
-//            return generator.nextInt(threshold, limit);
-//    }
-//
-//    public static int generatePhaseLength2(int range, int threshold, int limit) {
-//        Random generator = new Random();
-//
-//        int ratio = generator.nextInt(4);
-//
-//        if (ratio == 0)
-//            return generator.nextInt(limit, range);
-//        else
-//            return generator.nextInt(threshold, limit);
-//    }
 
 //    @Override
 //    public int compareTo(Request other) {

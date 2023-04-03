@@ -6,7 +6,7 @@ import Useful.DistanceCalculator;
 
 import java.util.ArrayList;
 
-public class SCAN {
+public class C_SCAN {
 
     private final Disc disc;
     private final int cylinderChangeTime;
@@ -14,11 +14,10 @@ public class SCAN {
     private final int platterChangeTime;
     private final int requestLifetime;
     private int time = 0;
-    private boolean flag = true;
     private Request lastlyExecutedRequest = null;
     private ArrayList<Request> listOfDeadRequests = new ArrayList<>();
 
-    public SCAN (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
+    public C_SCAN (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
         this.disc = disc;
         cylinderChangeTime = cylChangeTime;
         blockChangeTime = blkChangeTime;
@@ -51,14 +50,12 @@ public class SCAN {
         }
     }
 
-    //TODO Jeśli przejedziemy przez dysk w dwie strony i nie spotkamy żądania program uzna, że zakończył pracę,
-    // podczas gdy pewne żądania mogły jeszcze się nie pojawić.
-    // Naprawić zliczanie czasu.
     private Request findNextRequest () {
 
         int lastCylinderID = 0;
         int lastBlockID = 0;
         int lastPlatterID = 0;
+        int tempTime = time;
 
         if (lastlyExecutedRequest != null) {
             lastCylinderID = lastlyExecutedRequest.getCylinderID();
@@ -68,38 +65,17 @@ public class SCAN {
 
         int actualAddress = disc.getAddress(lastPlatterID, lastCylinderID, lastBlockID);
 
-        if (flag) {
-            while (actualAddress++ <= disc.getLastAddress()) {
-                int potentialAddress = actualAddress++;
-                Request potentialRequest = disc.getRequest(potentialAddress);
-                if (potentialRequest != null && potentialRequest.getMomentOfNotification() < time) {
-                    time += DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
-                            (actualAddress, potentialAddress,disc,platterChangeTime,cylinderChangeTime,blockChangeTime);
-                    disc.addRequest(potentialAddress, null);
-                    return potentialRequest;
-                }
+        while (actualAddress++ <= disc.getLastAddress()) {
+            int potentialAddress = actualAddress++;
+            Request potentialRequest = disc.getRequest(potentialAddress);
+            if (potentialRequest != null && potentialRequest.getMomentOfNotification() < tempTime) {
                 time += DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
                         (actualAddress, potentialAddress,disc,platterChangeTime,cylinderChangeTime,blockChangeTime);
-                //lastlyExecutedRequest.setCylinderID();
-                //moveHeadToRightEdge();
+                disc.addRequest(potentialAddress, null);
+                return potentialRequest;
             }
-            flag = false;
-        }
-        else {
-            while (actualAddress-- >= 0) {
-                int potentialAddress = actualAddress--;
-                Request potentialRequest = disc.getRequest(potentialAddress);
-                if (potentialRequest != null && potentialRequest.getMomentOfNotification() < time) {
-                    time += DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
-                            (actualAddress, potentialAddress,disc,platterChangeTime,cylinderChangeTime,blockChangeTime);
-                    disc.addRequest(potentialAddress, null);
-                    return potentialRequest;
-                }
-                time += DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
-                        (actualAddress, potentialAddress,disc,platterChangeTime,cylinderChangeTime,blockChangeTime);
-                //moveHeadToLeftEdge();
-            }
-            flag = true;
+            time += DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
+                    (actualAddress, potentialAddress,disc,platterChangeTime,cylinderChangeTime,blockChangeTime);
         }
 
         return null;

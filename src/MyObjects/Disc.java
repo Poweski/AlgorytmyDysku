@@ -12,46 +12,48 @@ public class Disc {
         return disc;
     }
 
-    public int getPlattersNumber () {
+    public int getCylindersPerPlatterNumber() {
         return disc.length;
     }
 
-    public int getCylindersPerPlatterNumber () {
+    public int getBlocksPerCylinderNumber() {
         return disc[0].length;
     }
 
-    public int getSegmentsPerCylinderNumber () {
+    public int getPlattersNumber() {
         return disc[0][0].length;
     }
 
-    public int[] getPlatterCylinderAndSegmentOfGivenAddress (int address) {
-        int platter = address/(getCylindersPerPlatterNumber()*getSegmentsPerCylinderNumber());
-        int cylinder = (address%(getCylindersPerPlatterNumber()*getSegmentsPerCylinderNumber()))/getSegmentsPerCylinderNumber();
-        int segment = (address%(getCylindersPerPlatterNumber()*getSegmentsPerCylinderNumber()))%getSegmentsPerCylinderNumber();
-        return new int[]{platter, cylinder, segment};
+    public int[] getPlatterCylinderAndBlockOfGivenAddress(int address) {
+
+        int cylinder = (address / (getPlattersNumber() * getBlocksPerCylinderNumber()));
+        int block = ((address % (getPlattersNumber() * getBlocksPerCylinderNumber())) / getPlattersNumber());
+        int platter = (address % getPlattersNumber());
+
+        return new int[]{cylinder, block, platter};
     }
 
     public Request getRequest (int address) {
-        int[] position = getPlatterCylinderAndSegmentOfGivenAddress(address);
+        int[] position = getPlatterCylinderAndBlockOfGivenAddress(address);
         return disc[position[0]][position[1]][position[2]];
     }
 
-    public int getAddress (int platter, int cylinder, int addres) {
-        return platter*getCylindersPerPlatterNumber() + cylinder*getSegmentsPerCylinderNumber() + addres;
+    public int getAddress (int cylinder, int block, int platter) {
+        return cylinder * getBlocksPerCylinderNumber() * getPlattersNumber()
+                + block * getPlattersNumber()
+                + platter;
     }
 
     public int getAddress (Request request) {
-        return getAddress(request.getPlatterID(), request.getCylinderID(), request.getSegmentID());
+        return getAddress(request.getCylinderID(), request.getBlockID(), request.getPlatterID());
     }
 
     public int getLastAddress () {
-        return getPlattersNumber()*getCylindersPerPlatterNumber()*getSegmentsPerCylinderNumber() - 1;
+        return getCylindersPerPlatterNumber() * getBlocksPerCylinderNumber() * getPlattersNumber() - 1;
     }
 
-    public void addRequest(int address, Request rqst) {
-        int[] position = getPlatterCylinderAndSegmentOfGivenAddress(address);
-        disc[position[0]][position[1]][position[2]] = rqst;
+    public void addRequest(int address, Request request) {
+        int[] position = getPlatterCylinderAndBlockOfGivenAddress(address);
+        disc[position[0]][position[1]][position[2]] = request;
     }
-
-
 }

@@ -9,16 +9,11 @@ public class TableManager {
     @SuppressWarnings("unchecked")
     public static ArrayList<Request> convert3DRequestTableTo1DArrayList(Request[][][] tab) {
         ArrayList<Request> resultsArrayList = new ArrayList<>();
-        for (Request[][] platter : tab) {
-            for (Request[] cylinder : platter) {
-                for (Request segment : cylinder) {
-                    if (segment != null) {
-                        resultsArrayList.add(new Request(segment));
-                    }
-                }
-            }
-        }
+        for (Request[][] cylinder : tab)
+            for (Request[] block : cylinder)
+                for (Request platter : block)
+                    if (platter != null)
+                        resultsArrayList.add(new Request(platter));
         return resultsArrayList;
     }
-
 }
