@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="197605d4-10eb-42f4-8637-9af98743c409" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Comparators/SortByDeadline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/C_SCAN.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Useful/DistanceCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Comparators/SortByMomentOfNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Comparators/SortByMomentOfNotification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyObjects/Disc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyObjects/Disc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyObjects/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyObjects/Request.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Useful/TableManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Useful/TableManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

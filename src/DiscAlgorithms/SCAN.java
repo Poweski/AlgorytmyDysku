@@ -14,7 +14,7 @@ public class SCAN {
     private final int platterChangeTime;
     private final int requestLifetime;
     private int time = 0;
-    private boolean flag = true;
+    private boolean headFlag = true;
     private Request lastlyExecutedRequest = null;
     private ArrayList<Request> listOfDeadRequests = new ArrayList<>();
 
@@ -32,7 +32,12 @@ public class SCAN {
 
         Request nextRequest = findNextRequest();
 
-        while (nextRequest != null) {
+        while (nextRequest != null | !isArrayEmpty()) {
+
+            while (nextRequest == null) {
+                time++;
+                nextRequest = findNextRequest();
+            }
 
             if (nextRequest.getMomentOfNotification() > time)
                 time = nextRequest.getMomentOfNotification();
@@ -51,9 +56,7 @@ public class SCAN {
         }
     }
 
-    //TODO Jeśli przejedziemy przez dysk w dwie strony i nie spotkamy żądania program uzna, że zakończył pracę,
-    // podczas gdy pewne żądania mogły jeszcze się nie pojawić.
-    // Naprawić zliczanie czasu.
+    //TODO Naprawić zliczanie czasu.
     private Request findNextRequest () {
 
         int lastCylinderID = 0;
@@ -68,7 +71,7 @@ public class SCAN {
 
         int actualAddress = disc.getAddress(lastPlatterID, lastCylinderID, lastBlockID);
 
-        if (flag) {
+        if (headFlag) {
             while (actualAddress++ <= disc.getLastAddress()) {
                 int potentialAddress = actualAddress++;
                 Request potentialRequest = disc.getRequest(potentialAddress);
@@ -83,7 +86,7 @@ public class SCAN {
                 //lastlyExecutedRequest.setCylinderID();
                 //moveHeadToRightEdge();
             }
-            flag = false;
+            headFlag = false;
         }
         else {
             while (actualAddress-- >= 0) {
@@ -99,9 +102,17 @@ public class SCAN {
                         (actualAddress, potentialAddress,disc,platterChangeTime,cylinderChangeTime,blockChangeTime);
                 //moveHeadToLeftEdge();
             }
-            flag = true;
+            headFlag = true;
         }
-
         return null;
+    }
+
+    public boolean isArrayEmpty() {
+        int tempAddress = 0;
+        boolean loopFlag = false;
+        while (tempAddress <= disc.getLastAddress())
+            if (disc.getRequest(tempAddress) != null)
+                loopFlag = true;
+        return loopFlag;
     }
 }
