@@ -8,11 +8,11 @@ public class DistanceCalculator {
     public static int getDifferenceInTimeBetweenTwoSegments
             (int address1, int address2, Disc disc, int platterChangeTime,
              int cylinderChangeTime, int blockChangeTime) {
-        int[] pos1 = disc.getPlatterCylinderAndBlockOfGivenAddress(address1);
+        int[] pos1 = disc.getCylinderBlockAndPlatterOfGivenAddress(address1);
         int cylinderID1 = pos1[0];
         int blockID1 = pos1[1];
         int platterID1 = pos1[2];
-        int[] pos2 = disc.getPlatterCylinderAndBlockOfGivenAddress(address2);
+        int[] pos2 = disc.getCylinderBlockAndPlatterOfGivenAddress(address2);
         int cylinderID2 = pos2[0];
         int blockID2 = pos2[1];
         int platterID2 = pos2[2];

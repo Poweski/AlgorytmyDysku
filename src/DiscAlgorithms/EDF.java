@@ -9,7 +9,7 @@ import Useful.TableManager;
 
 import java.util.ArrayList;
 
-public class FCFS {
+public class EDF {
 
     private final ArrayList<Request> queueOfRequests;
     private ArrayList<Request> listOfDeadRequests = new ArrayList<>();
@@ -24,8 +24,8 @@ public class FCFS {
     private int platterChangingNumberOfMoves = 0;
     private int blockChangingNumberOfMoves = 0;
 
-    public FCFS (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
-        queueOfRequests = TableManager.convert3DRequestTableTo1DArrayList(disc.getDisc());
+    public EDF (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
+        queueOfRequests = TableManager.convert3DRequestTableTo1DArrayList(disc.getSelfClone().getDisc());
         queueOfRequests.sort(new SortByMomentOfNotification());
         blockChangeTime = blkChangeTime;
         cylinderChangeTime = cylChangeTime;
@@ -46,7 +46,7 @@ public class FCFS {
             if (nextRequest.getMomentOfNotification() > time)
                 time = nextRequest.getMomentOfNotification();
 
-            if (lastlyExecutedRequest != null) {
+            if (lastlyExecutedRequest != null){
                 time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
                         (lastlyExecutedRequest,nextRequest,platterChangeTime,cylinderChangeTime,blockChangeTime);
                 cylinderChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getCylinderID() - nextRequest.getCylinderID());
@@ -55,8 +55,8 @@ public class FCFS {
             }
 
             nextRequest.setWaitingTime(time-nextRequest.getMomentOfNotification());
-
             time += requestLifetime;
+
             lastlyExecutedRequest = nextRequest;
             listOfDeadRequests.add(nextRequest);
 
@@ -65,8 +65,33 @@ public class FCFS {
     }
 
     private Request findNextRequest () {
+
         if (queueOfRequests.size() == 0)
             return null;
-        return queueOfRequests.remove(0);
+
+        if (lastlyExecutedRequest == null)
+            return queueOfRequests.remove(0);
+
+        Request bestNextRequest = queueOfRequests.get(0);
+        double theMostUrgentDeadline = bestNextRequest.getDeadline();
+
+        int numberOfProcessesComingBeforeActualTime = 1;
+
+        while (numberOfProcessesComingBeforeActualTime < queueOfRequests.size() &&
+                queueOfRequests.get(numberOfProcessesComingBeforeActualTime).getMomentOfNotification() <=
+                        Math.max(bestNextRequest.getMomentOfNotification(), time)) {
+
+            Request potentialRequest = queueOfRequests.get(numberOfProcessesComingBeforeActualTime);
+
+
+            if (potentialRequest.getDeadline() < theMostUrgentDeadline) {
+                bestNextRequest = potentialRequest;
+                theMostUrgentDeadline = potentialRequest.getDeadline();
+            }
+
+            numberOfProcessesComingBeforeActualTime++;
+        }
+        queueOfRequests.remove(bestNextRequest);
+        return bestNextRequest;
     }
 }
