@@ -11,27 +11,29 @@ import java.util.ArrayList;
 
 public class FCFS {
 
-    private final ArrayList<Request> queueOfRequests;
-    private ArrayList<Request> listOfDeadRequests = new ArrayList<>();
     private Request lastlyExecutedRequest = null;
+    private final ArrayList<Request> listOfDeadRequests = new ArrayList<>();
+    private final ArrayList<Request> queueOfRequests;
+    private final int requestLifetime;
     private final int cylinderChangeTime;
     private final int blockChangeTime;
     private final int platterChangeTime;
-    private final int requestLifetime;
-    private int time = 0;
-
     private int cylinderChangingNumberOfMoves = 0;
     private int platterChangingNumberOfMoves = 0;
     private int blockChangingNumberOfMoves = 0;
+    private int time = 0;
 
     public FCFS (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
+
         queueOfRequests = TableManager.convert3DRequestTableTo1DArrayList(disc.getDisc());
         queueOfRequests.sort(new SortByMomentOfNotification());
+
         blockChangeTime = blkChangeTime;
         cylinderChangeTime = cylChangeTime;
         platterChangeTime = pltChangeTime;
         requestLifetime = reqLifetime;
-        System.out.println();
+
+        System.out.print("\nFCFS ");
         carryOutTheSimulation();
         StatsManager.getStats(listOfDeadRequests, time, cylinderChangingNumberOfMoves,
                 blockChangingNumberOfMoves, platterChangingNumberOfMoves);

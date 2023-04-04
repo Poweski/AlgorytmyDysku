@@ -12,28 +12,33 @@ import java.util.ArrayList;
 
 public class FD_SCAN {
 
+    private final Disc disc;
+    private final ArrayList<Request> listOfDeadRequests = new ArrayList<>();
     private final ArrayList<Request> queueOfRequests;
-    private ArrayList<Request> listOfDeadRequests = new ArrayList<>();
     private Request lastlyExecutedRequest = null;
+    private final int requestLifetime;
     private final int cylinderChangeTime;
     private final int blockChangeTime;
     private final int platterChangeTime;
-    private final int requestLifetime;
-    private int time = 0;
-
     private int cylinderChangingNumberOfMoves = 0;
     private int platterChangingNumberOfMoves = 0;
     private int blockChangingNumberOfMoves = 0;
+    private int time = 0;
 
     public FD_SCAN (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
+
+        this.disc = disc.getSelfClone();
         queueOfRequests = TableManager.convert3DRequestTableTo1DArrayList(disc.getSelfClone().getDisc());
         queueOfRequests.sort(new SortByMomentOfNotification());
+
         blockChangeTime = blkChangeTime;
         cylinderChangeTime = cylChangeTime;
         platterChangeTime = pltChangeTime;
         requestLifetime = reqLifetime;
+
         System.out.println();
         carryOutTheSimulation();
+        System.out.print("FD-SCAN ");
         StatsManager.getStats(listOfDeadRequests, time, cylinderChangingNumberOfMoves,
                 blockChangingNumberOfMoves, platterChangingNumberOfMoves);
     }
@@ -48,8 +53,10 @@ public class FD_SCAN {
                 time = nextRequest.getMomentOfNotification();
 
             if (lastlyExecutedRequest != null) {
+
                 time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
                         (lastlyExecutedRequest,nextRequest,platterChangeTime,cylinderChangeTime,blockChangeTime);
+
                 cylinderChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getCylinderID() - nextRequest.getCylinderID());
                 platterChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getPlatterID() - nextRequest.getPlatterID());
                 blockChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getBlockID() - nextRequest.getBlockID());
@@ -71,7 +78,7 @@ public class FD_SCAN {
             return null;
 
         if (lastlyExecutedRequest == null)
-            return queueOfRequests.remove(0);
+            return disc.removeRequest(disc.getAddress(queueOfRequests.remove(0)));
 
         ArrayList<Request> consideredRequests = new ArrayList<>();
         consideredRequests.add(queueOfRequests.get(0));
@@ -96,11 +103,33 @@ public class FD_SCAN {
                 return queueOfRequests.remove(0);
 
             if (timeAfterArrivalToRequest <= request.getDeadline()) {
-                queueOfRequests.remove(request);
+
+                int actualAddress = disc.getAddress(lastlyExecutedRequest);
+                int change = (++actualAddress < disc.getAddress(request))? 1: -1;
+
+                while (true) {
+
+                    if (disc.getRequest(actualAddress) != null) {
+                        if (disc.getRequest(actualAddress).getMomentOfNotification() <=
+                                (time + DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
+                                        (disc.getAddress(lastlyExecutedRequest), actualAddress, disc,
+                                                platterChangeTime, cylinderChangeTime, blockChangeTime))){
+                            break;
+                        }
+                    }
+
+                    actualAddress += change;
+
+                    if (actualAddress == disc.getAddress(request))
+                        break;
+                }
+
+                queueOfRequests.remove(disc.getRequest(actualAddress));
+                disc.removeRequest(actualAddress);
+
                 return request;
             }
         }
-
         return queueOfRequests.remove(0);
     }
 }

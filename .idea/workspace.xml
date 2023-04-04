@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="197605d4-10eb-42f4-8637-9af98743c409" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/EDF.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DiscAlgorithms/FD_SCAN.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Useful/StatsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Comparators/SortByDeadline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Comparators/SortByDeadline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataExchange/PresentResults.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/C_SCAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/C_SCAN.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/EDF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/EDF.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/FCFS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/FD_SCAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/FD_SCAN.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SCAN.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiscAlgorithms/SSTF.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MyObjects/Disc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyObjects/Disc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MyObjects/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyObjects/Request.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Useful/DistanceCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Useful/DistanceCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Useful/StatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Useful/StatsManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,15 +41,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main.Main" />
@@ -96,5 +94,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="requestsList.get(3)" />
+        <watch expression="requestsList.get(28)" />
+        <watch expression="requestsList.get(13)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -1,13 +1,13 @@
 package MyObjects;
 
 public class Request {
-
     private final int cylinderID;
     private final int blockID;
     private final int platterID;
     private final int momentOfNotification;
     private final double deadline;
     private int waitingTime;
+
     public Request(int cylinderID, int blockID, int platterID, int momentOfNotification, double deadline) {
         this.cylinderID = cylinderID;
         this.blockID = blockID;
