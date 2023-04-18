@@ -1,44 +1,39 @@
-package DiscAlgorithms;
+package Algorithms;
 
-import MyObjects.Disc;
-import MyObjects.Request;
-import Useful.DistanceCalculator;
-import Useful.StatsManager;
+import MyObjects.*;
+import Helpful.*;
 
 import java.util.ArrayList;
 
 public class SCAN {
-
     private final Disc disc;
     private final ArrayList<Request> listOfDeadRequests = new ArrayList<>();
     private Request lastlyExecutedRequest = null;
-    private boolean headFlag = true;
-    private final int requestLifetime;
+    private boolean flag = true;
+    private final int requestProcessingTime;
     private final int cylinderChangeTime;
-    private final int blockChangeTime;
+    private final int setChangeTime;
     private final int platterChangeTime;
-    private int cylinderChangingNumberOfMoves = 0;
-    private int platterChangingNumberOfMoves = 0;
-    private int blockChangingNumberOfMoves = 0;
+    private int cylinderNumberOfMoves = 0;
+    private int platterNumberOfMoves = 0;
+    private int setNumberOfMoves = 0;
     private int time = 0;
 
-    public SCAN (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
+    public SCAN (Disc disc, int cylinderChangeTime, int setChangeTime, int platterChangeTime, int requestProcessingTime) {
 
+        this.cylinderChangeTime = cylinderChangeTime;
+        this.setChangeTime = setChangeTime;
+        this.platterChangeTime = platterChangeTime;
+        this.requestProcessingTime = requestProcessingTime;
         this.disc = disc.getSelfClone();
 
-        cylinderChangeTime = cylChangeTime;
-        blockChangeTime = blkChangeTime;
-        platterChangeTime = pltChangeTime;
-        requestLifetime = reqLifetime;
+        runTheSimulation();
 
-        System.out.println();
-        carryOutTheSimulation();
-        System.out.print("SCAN ");
-        StatsManager.getStats(listOfDeadRequests, time, cylinderChangingNumberOfMoves,
-                blockChangingNumberOfMoves, platterChangingNumberOfMoves);
+        ResultManager.presentResults("SCAN", listOfDeadRequests, time, cylinderNumberOfMoves,
+                setNumberOfMoves, platterNumberOfMoves);
     }
 
-    private void carryOutTheSimulation () {
+    private void runTheSimulation() {
 
         Request nextRequest = findNextRequest();
 
@@ -48,24 +43,24 @@ public class SCAN {
                 time = nextRequest.getMomentOfNotification();
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
-                    nextRequest, platterChangeTime, cylinderChangeTime, blockChangeTime);
+                    nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
 
             if (lastlyExecutedRequest != null) {
-                cylinderChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getCylinderID() - nextRequest.getCylinderID());
-                platterChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getPlatterID() - nextRequest.getPlatterID());
-                blockChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getBlockID() - nextRequest.getBlockID());
+                cylinderNumberOfMoves += MovesCalculator.countCylinderMoves(lastlyExecutedRequest,nextRequest);
+                platterNumberOfMoves += MovesCalculator.countPlatterMoves(lastlyExecutedRequest,nextRequest);
+                setNumberOfMoves += MovesCalculator.countSetMoves(lastlyExecutedRequest,nextRequest);
             }
             else {
-                cylinderChangingNumberOfMoves += nextRequest.getCylinderID();
-                platterChangingNumberOfMoves += nextRequest.getPlatterID();
-                blockChangingNumberOfMoves += nextRequest.getBlockID();
+                cylinderNumberOfMoves += nextRequest.getCylinderID();
+                platterNumberOfMoves += nextRequest.getPlatterID();
+                setNumberOfMoves += nextRequest.getSetID();
             }
 
             nextRequest.setWaitingTime(time-nextRequest.getMomentOfNotification());
+            time += requestProcessingTime;
 
             lastlyExecutedRequest = nextRequest;
             listOfDeadRequests.add(nextRequest);
-            time += requestLifetime;
 
             nextRequest = findNextRequest();
         }
@@ -87,15 +82,15 @@ public class SCAN {
 
         while (isAnyAlive || !(numberOfChecksForTheSameRequest == 2)) {
 
-            if(headFlag) {
+            if(flag) {
                 potentialAddress += 1;
                 if (potentialAddress == disc.getLastAddress())
-                    headFlag = false;
+                    flag = false;
             }
             else {
                 potentialAddress -= 1;
                 if (potentialAddress == 0)
-                    headFlag = true;
+                    flag = true;
             }
 
             if (lastServicedRequestAddress == potentialAddress)
@@ -104,7 +99,7 @@ public class SCAN {
             potentialRequest = disc.getRequest(potentialAddress);
 
             tempTime = time + DistanceCalculator.getDifferenceInTimeBetweenTwoSegments(disc.getAddress(lastlyExecutedRequest),
-                    potentialAddress, disc, platterChangeTime, cylinderChangeTime, blockChangeTime);
+                    potentialAddress, disc, platterChangeTime, cylinderChangeTime, setChangeTime);
 
             if (potentialRequest != null) {
                 isAnyAlive = true;

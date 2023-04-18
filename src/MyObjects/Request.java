@@ -2,15 +2,15 @@ package MyObjects;
 
 public class Request {
     private final int cylinderID;
-    private final int blockID;
+    private final int setID;
     private final int platterID;
     private final int momentOfNotification;
     private final double deadline;
     private int waitingTime;
 
-    public Request(int cylinderID, int blockID, int platterID, int momentOfNotification, double deadline) {
+    public Request(int cylinderID, int setID, int platterID, int momentOfNotification, double deadline) {
         this.cylinderID = cylinderID;
-        this.blockID = blockID;
+        this.setID = setID;
         this.platterID = platterID;
         this.momentOfNotification = momentOfNotification;
         this.deadline = deadline;
@@ -19,7 +19,7 @@ public class Request {
 
     public Request(Request request) {
         this.cylinderID = request.getCylinderID();
-        this.blockID = request.getBlockID();
+        this.setID = request.getSetID();
         this.platterID = request.getPlatterID();
         this.momentOfNotification = request.getMomentOfNotification();
         this.deadline = request.getDeadline();
@@ -31,8 +31,8 @@ public class Request {
         return cylinderID;
     }
 
-    public int getBlockID() {
-        return blockID;
+    public int getSetID() {
+        return setID;
     }
 
     public int getPlatterID() {

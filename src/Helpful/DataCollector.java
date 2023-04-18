@@ -1,8 +1,8 @@
-package DataExchange;
+package Helpful;
 
 import java.util.Scanner;
 
-public class CollectData {
+public class DataCollector {
     public static int makeARequest(String order) {
         boolean flag = true;
         int result = 0;

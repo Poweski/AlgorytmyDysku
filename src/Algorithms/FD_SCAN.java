@@ -1,49 +1,43 @@
-package DiscAlgorithms;
+package Algorithms;
 
-import Comparators.SortByDeadline;
-import Comparators.SortByMomentOfNotification;
-import MyObjects.Disc;
-import MyObjects.Request;
-import Useful.DistanceCalculator;
-import Useful.StatsManager;
-import Useful.TableManager;
+import Comparators.*;
+import MyObjects.*;
+import Helpful.*;
 
 import java.util.ArrayList;
 
 public class FD_SCAN {
-
     private final Disc disc;
     private final ArrayList<Request> listOfDeadRequests = new ArrayList<>();
     private final ArrayList<Request> queueOfRequests;
     private Request lastlyExecutedRequest = null;
-    private final int requestLifetime;
+    private final int requestProcessingTime;
     private final int cylinderChangeTime;
-    private final int blockChangeTime;
+    private final int setChangeTime;
     private final int platterChangeTime;
-    private int cylinderChangingNumberOfMoves = 0;
-    private int platterChangingNumberOfMoves = 0;
-    private int blockChangingNumberOfMoves = 0;
+    private int cylinderNumberOfMoves = 0;
+    private int platterNumberOfMoves = 0;
+    private int setNumberOfMoves = 0;
     private int time = 0;
 
-    public FD_SCAN (Disc disc, int cylChangeTime, int blkChangeTime, int pltChangeTime, int reqLifetime) {
+
+    public FD_SCAN (Disc disc, int cylinderChangeTime, int setChangeTime, int platterChangeTime, int requestProcessingTime) {
 
         this.disc = disc.getSelfClone();
-        queueOfRequests = TableManager.convert3DRequestTableTo1DArrayList(disc.getSelfClone().getDisc());
+        this.setChangeTime = setChangeTime;
+        this.cylinderChangeTime = cylinderChangeTime;
+        this.platterChangeTime = platterChangeTime;
+        this.requestProcessingTime = requestProcessingTime;
+
+        queueOfRequests = TableManager.convertRequestTableToArrayList(disc.getDisc());
         queueOfRequests.sort(new SortByMomentOfNotification());
 
-        blockChangeTime = blkChangeTime;
-        cylinderChangeTime = cylChangeTime;
-        platterChangeTime = pltChangeTime;
-        requestLifetime = reqLifetime;
+        runTheSimulation();
 
-        System.out.println();
-        carryOutTheSimulation();
-        System.out.print("FD-SCAN ");
-        StatsManager.getStats(listOfDeadRequests, time, cylinderChangingNumberOfMoves,
-                blockChangingNumberOfMoves, platterChangingNumberOfMoves);
+        ResultManager.presentResults("FD-SCAN", listOfDeadRequests, time, cylinderNumberOfMoves,
+                setNumberOfMoves, platterNumberOfMoves);
     }
-
-    private void carryOutTheSimulation() {
+    private void runTheSimulation() {
 
         Request nextRequest = findNextRequest();
 
@@ -52,18 +46,22 @@ public class FD_SCAN {
             if (nextRequest.getMomentOfNotification() > time)
                 time = nextRequest.getMomentOfNotification();
 
+            time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
+                    nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
+
             if (lastlyExecutedRequest != null) {
-
-                time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
-                        (lastlyExecutedRequest,nextRequest,platterChangeTime,cylinderChangeTime,blockChangeTime);
-
-                cylinderChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getCylinderID() - nextRequest.getCylinderID());
-                platterChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getPlatterID() - nextRequest.getPlatterID());
-                blockChangingNumberOfMoves += Math.abs(lastlyExecutedRequest.getBlockID() - nextRequest.getBlockID());
+                cylinderNumberOfMoves += MovesCalculator.countCylinderMoves(lastlyExecutedRequest,nextRequest);
+                platterNumberOfMoves += MovesCalculator.countPlatterMoves(lastlyExecutedRequest,nextRequest);
+                setNumberOfMoves += MovesCalculator.countSetMoves(lastlyExecutedRequest,nextRequest);
+            }
+            else {
+                cylinderNumberOfMoves += nextRequest.getCylinderID();
+                platterNumberOfMoves += nextRequest.getPlatterID();
+                setNumberOfMoves += nextRequest.getSetID();
             }
 
             nextRequest.setWaitingTime(time-nextRequest.getMomentOfNotification());
-            time += requestLifetime;
+            time += requestProcessingTime;
 
             lastlyExecutedRequest = nextRequest;
             listOfDeadRequests.add(nextRequest);
@@ -97,7 +95,7 @@ public class FD_SCAN {
         for (Request request: consideredRequests) {
 
             int timeAfterArrivalToRequest = time + DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
-                    (lastlyExecutedRequest, request, platterChangeTime, cylinderChangeTime, blockChangeTime);
+                    (lastlyExecutedRequest, request, platterChangeTime, cylinderChangeTime, setChangeTime);
 
             if (request.getDeadline() == Double.POSITIVE_INFINITY)
                 return queueOfRequests.remove(0);
@@ -105,7 +103,7 @@ public class FD_SCAN {
             if (timeAfterArrivalToRequest <= request.getDeadline()) {
 
                 int actualAddress = disc.getAddress(lastlyExecutedRequest);
-                int change = (++actualAddress < disc.getAddress(request))? 1: -1;
+                int change = (++actualAddress < disc.getAddress(request)) ? 1: -1;
 
                 while (true) {
 
@@ -113,7 +111,7 @@ public class FD_SCAN {
                         if (disc.getRequest(actualAddress).getMomentOfNotification() <=
                                 (time + DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
                                         (disc.getAddress(lastlyExecutedRequest), actualAddress, disc,
-                                                platterChangeTime, cylinderChangeTime, blockChangeTime))){
+                                                platterChangeTime, cylinderChangeTime, setChangeTime))){
                             break;
                         }
                     }
@@ -130,6 +128,7 @@ public class FD_SCAN {
                 return request;
             }
         }
+
         return queueOfRequests.remove(0);
     }
 }
