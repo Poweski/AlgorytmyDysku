@@ -9,12 +9,12 @@ public class Main {
     private static final int CYLINDER_CHANGE_TIME = 5;
     private static final int SETS_PER_CYLINDER = 150;
     private static final int CYLINDERS_PER_PLATTER = 100;
-    private static final int NUMBER_OF_PLATTERS = 10;
+    private static final int NUMBER_OF_PLATTERS = 3;
     private static final int NUMBER_OF_REQUESTS = 1500;
     private static final boolean SIMULTANEOUS_REQUESTS = false;
     private static final boolean CONCENTRATED_ON_ONE_SIDE = false;
     private static final boolean DEADLINE = true;
-    private static final int PERCENTAGE_DEADLINE_CHANCE = 50;
+    private static final int PERCENTAGE_DEADLINE_CHANCE = 5;
 
 
     public static void main(String[] args) {

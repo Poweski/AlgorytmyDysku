@@ -10,7 +10,7 @@ public class RequestGenerator {
             (Disc disc, boolean CONCENTRATED_ON_ONE_SIDE, boolean SIMULTANEOUS_REQUESTS, boolean DEADLINE, int PERCENTAGE_DEADLINE_CHANCE, int NUMBER_OF_REQUESTS,
              int NUMBER_OF_PLATTERS, int SETS_PER_CYLINDER, int CYLINDERS_PER_PLATTER, int REQUEST_PROCESSING_TIME) {
 
-        Random rng = new Random(42);
+        Random rng = new Random();
 
         int discLength = NUMBER_OF_PLATTERS * SETS_PER_CYLINDER * CYLINDERS_PER_PLATTER;
         int address = rng.nextInt(discLength-1);

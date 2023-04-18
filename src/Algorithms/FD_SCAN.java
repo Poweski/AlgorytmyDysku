@@ -103,7 +103,7 @@ public class FD_SCAN {
             if (timeAfterArrivalToRequest <= request.getDeadline()) {
 
                 int actualAddress = disc.getAddress(lastlyExecutedRequest);
-                int change = (++actualAddress < disc.getAddress(request)) ? 1: -1;
+                int change = (++actualAddress < disc.getAddress(request)) ? 1 : -1;
 
                 while (true) {
 
@@ -122,10 +122,13 @@ public class FD_SCAN {
                         break;
                 }
 
-                queueOfRequests.remove(disc.getRequest(actualAddress));
-                disc.removeRequest(actualAddress);
+                for (int id = 0; id < queueOfRequests.size(); id++)
+                    if (disc.getAddress(queueOfRequests.get(id)) == actualAddress) {
+                        queueOfRequests.remove(id);
+                        break;
+                    }
 
-                return request;
+                return disc.removeRequest(actualAddress);
             }
         }
 

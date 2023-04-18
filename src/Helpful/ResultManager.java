@@ -34,7 +34,7 @@ public class ResultManager {
         else
             System.out.print("\n% of requests served before deadline: -");
         System.out.printf("\nMoves in order to change platter: %,d", platterChangeMoves);
-        System.out.printf("\nMoves in order to change block: %,d", setChangeMoves);
+        System.out.printf("\nMoves in order to change set: %,d", setChangeMoves);
         System.out.printf("\nMoves in order to change cylinder: %,d\n", cylinderChangeMoves);
     }
 }
